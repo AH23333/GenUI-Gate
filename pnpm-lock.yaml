@@ -24,6 +24,12 @@ importers:
         specifier: ^3.0.0
         version: 3.2.7(@types/node@24.19.2)
 
+  packages/adapter-a2ui:
+    dependencies:
+      '@genui/ir':
+        specifier: workspace:*
+        version: link:../ir
+
   packages/gate:
     dependencies:
       '@genui/ir':
