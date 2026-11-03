@@ -1,0 +1,15 @@
+{
+  "name": "@genui/gate",
+  "version": "0.1.0",
+  "description": "Runtime gate for agent-generated UI: limits enforcement and verdict aggregation",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@genui/ir": "workspace:*"
+  }
+}
