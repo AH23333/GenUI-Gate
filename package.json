@@ -1,0 +1,25 @@
+{
+  "name": "genui-gate",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Quality and accessibility gate for agent-generated UI. Protocol-agnostic (A2UI first).",
+  "license": "Apache-2.0",
+  "type": "module",
+  "packageManager": "pnpm@11.7.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "coverage": "vitest run --coverage"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@vitest/coverage-v8": "^3.0.0",
+    "fast-check": "^4.0.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}
