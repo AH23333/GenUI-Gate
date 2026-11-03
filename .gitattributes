@@ -1,0 +1,10 @@
+# 强制 LF：跨平台哈希确定性（产品设计v2 §5.3/§15.1）的前提
+# fixture / 源码若被 CRLF 污染，同一文件在不同平台会产生不同字节与哈希
+* text=auto eol=lf
+
+# 二进制例外
+*.png binary
+*.jpg binary
+*.gif binary
+*.webp binary
+*.ico binary
