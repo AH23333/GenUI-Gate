@@ -14,7 +14,8 @@
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "coverage": "vitest run --coverage",
-    "bench": "tsx scripts/bench-gate.ts"
+    "bench": "tsx scripts/bench-gate.ts",
+    "bench:session": "tsx scripts/bench-session.ts"
   },
   "devDependencies": {
     "@genui/gate": "workspace:*",

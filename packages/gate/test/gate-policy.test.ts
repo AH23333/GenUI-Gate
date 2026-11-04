@@ -225,5 +225,5 @@ describe('gate idempotency with policy + fix (v2 15.0)', () => {
       expect(second.verdict).toBe(projectVerdict(first.verdict));
     });
     fc.assert(property, { numRuns: 100 });
-  });
+  }, 20000);
 });

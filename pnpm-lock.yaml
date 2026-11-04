@@ -76,6 +76,12 @@ importers:
         specifier: workspace:*
         version: link:../ir
 
+  packages/session:
+    dependencies:
+      '@genui/ir':
+        specifier: workspace:*
+        version: link:../ir
+
 packages:
 
   '@ampproject/remapping@2.3.0':

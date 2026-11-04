@@ -1,0 +1,15 @@
+{
+  "name": "@genui/session",
+  "version": "0.1.0",
+  "description": "Runtime session core for the gate: frame ingest validation, bounded pending frame queue with backpressure (v2 SS5.2/SS6.6)",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@genui/ir": "workspace:*"
+  }
+}
