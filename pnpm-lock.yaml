@@ -63,6 +63,15 @@ importers:
 
   packages/ir: {}
 
+  packages/policy:
+    dependencies:
+      '@genui/gate':
+        specifier: workspace:*
+        version: link:../gate
+      '@genui/ir':
+        specifier: workspace:*
+        version: link:../ir
+
 packages:
 
   '@ampproject/remapping@2.3.0':
