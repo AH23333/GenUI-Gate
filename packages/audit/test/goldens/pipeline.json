@@ -1,0 +1,956 @@
+[
+  {
+    "file": "basic-v1/00_complex-layout.json",
+    "inputBytes": 1649,
+    "inputSha256": "e97c2e9d9c8901f71ddcffb28f7a266ab5a5cd03c9ca1c98776887adc58f563f",
+    "surfaceCount": 1,
+    "totalNodes": 6,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-complex-layout",
+        "componentCount": 6,
+        "nodeCount": 6,
+        "verdict": "pass",
+        "irHash": "a1c5bb203eb01514e824d1188688b050d29c838520c1c5ebcb996a971661aceb"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/00_formatted-text.json",
+    "inputBytes": 1437,
+    "inputSha256": "4d8a018697f9482d01d8bda56e20e78ff84fcbd4007808ccee39057cedd0ad93",
+    "surfaceCount": 1,
+    "totalNodes": 4,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-formatted-text",
+        "componentCount": 4,
+        "nodeCount": 4,
+        "verdict": "pass",
+        "irHash": "7b41fc2478c79d0776b64ec5385d66bec1459070c0a7d0966301b952a06c50ab"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/00_incremental.json",
+    "inputBytes": 3323,
+    "inputSha256": "79e839e4e47d38163acdb1a391d653cb9409eb65f5d22fdabc679cf8c92c14cd",
+    "surfaceCount": 1,
+    "totalNodes": 1,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-incremental",
+        "componentCount": 7,
+        "nodeCount": 1,
+        "verdict": "pass",
+        "irHash": "35cc68b595b4da29bb77fc5ab10063e9f1ef56c2a3f79219eb885ba1629c27e5"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/00_interactive-button.json",
+    "inputBytes": 1297,
+    "inputSha256": "7a35550233223e991abb6dcf99a798d8c1c26d601a495f18764067233f32b4d0",
+    "surfaceCount": 1,
+    "totalNodes": 4,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-interactive-button",
+        "componentCount": 4,
+        "nodeCount": 4,
+        "verdict": "pass",
+        "irHash": "c91d8ba90a33c78522ed8bbeaea4c92b310227495344c7c4e80fc87e0b49caca"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/00_row-layout.json",
+    "inputBytes": 991,
+    "inputSha256": "9bcc86db9ac3583cf6205d23e240528f295f28cc28af6402ed109fde52508a93",
+    "surfaceCount": 1,
+    "totalNodes": 3,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-row-layout",
+        "componentCount": 3,
+        "nodeCount": 3,
+        "verdict": "pass",
+        "irHash": "2d991c9f5bb12e0af8101330812e1f7a229715517f0aa3034094b9facd94b775"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/00_simple-login-form.json",
+    "inputBytes": 2001,
+    "inputSha256": "e0f8643566d4d4278db21f17208d079cca0f9e0b68096d958ea885c939ff94c1",
+    "surfaceCount": 1,
+    "totalNodes": 6,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-simple-login-form",
+        "componentCount": 6,
+        "nodeCount": 6,
+        "verdict": "pass",
+        "irHash": "e142964f0efb85130bf10e58ea6e74947c7b7d004ab6a05c03c34a76ba2e6863"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/00_simple-text.json",
+    "inputBytes": 606,
+    "inputSha256": "543cba95041aceb0baadd5d048efb83c1ae4ef88cb1a3843a99329eaf0b43736",
+    "surfaceCount": 1,
+    "totalNodes": 1,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-simple-text",
+        "componentCount": 1,
+        "nodeCount": 1,
+        "verdict": "pass",
+        "irHash": "4c54a4b3afbf96224a8d2232d95bf1af31e65f10c8e6d4a20a791d30d2c6e165"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/01_flight-status.json",
+    "inputBytes": 5218,
+    "inputSha256": "9a10681d3d4e8e4c37901132fb30d72c93eb43fcc16446df6ef8ebba55dd34f7",
+    "surfaceCount": 1,
+    "totalNodes": 22,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-flight-status",
+        "componentCount": 22,
+        "nodeCount": 22,
+        "verdict": "pass",
+        "irHash": "f86cdf346e86f50afe0eb2a8116cb9cbd4944c0c01a1a267426c25ac8efd8c2c"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/02_email-compose.json",
+    "inputBytes": 4778,
+    "inputSha256": "fa189d2cf271987f3e29a579bc81384772561a9f7cdf9addb47f26d68adbd90a",
+    "surfaceCount": 1,
+    "totalNodes": 22,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-email-compose",
+        "componentCount": 22,
+        "nodeCount": 22,
+        "verdict": "pass",
+        "irHash": "15ae941639afe8420c968991673841c85c251a484a4b8fd8878a80fc51d4f3fe"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/03_calendar-day.json",
+    "inputBytes": 4093,
+    "inputSha256": "0454a1809a152b9ce32215629a08957e39d4034de0811f038c10cbf73934681c",
+    "surfaceCount": 1,
+    "totalNodes": 13,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-calendar-day",
+        "componentCount": 16,
+        "nodeCount": 13,
+        "verdict": "pass",
+        "irHash": "1c55c9371489720bd9cc885bd79229688dd51ecfbe63a4b3e8082b0f92e82d11"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/04_weather-current.json",
+    "inputBytes": 4168,
+    "inputSha256": "210f22b4b5bd6a793c7dcb65b2e0d649ab24296685e3ff1a56e730ed7677a314",
+    "surfaceCount": 1,
+    "totalNodes": 8,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-weather-current",
+        "componentCount": 12,
+        "nodeCount": 8,
+        "verdict": "pass",
+        "irHash": "d1e86c4740307f113a255adb851a05d33bc4a4ba17f2b5c98599361006fd04c4"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/05_product-card.json",
+    "inputBytes": 3880,
+    "inputSha256": "fad2acee51b3d95d5ec51ab2c40504ddc38212674ac8f15407e765632611d7f4",
+    "surfaceCount": 1,
+    "totalNodes": 14,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-product-card",
+        "componentCount": 14,
+        "nodeCount": 14,
+        "verdict": "pass",
+        "irHash": "b6c312579ae0b4facd652995c1e672307ccfada79aed9568429ac6cdf8d0b70b"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/06_music-player.json",
+    "inputBytes": 4170,
+    "inputSha256": "deb3d10254dc0e5b98286c2553e182c944007776f95202fe5a76d036fa3f109e",
+    "surfaceCount": 1,
+    "totalNodes": 17,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-music-player",
+        "componentCount": 17,
+        "nodeCount": 17,
+        "verdict": "pass",
+        "irHash": "ec7b03e0423dc6ed2dbe9c98eef0cca5cadea7a6abedc57b269a79162aa54d49"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/07_task-card.json",
+    "inputBytes": 2705,
+    "inputSha256": "19fe225b4cb34e57ce05c08a484602b68a469d6b454ddf6beb351690d66bc31f",
+    "surfaceCount": 1,
+    "totalNodes": 10,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-task-card",
+        "componentCount": 10,
+        "nodeCount": 10,
+        "verdict": "pass",
+        "irHash": "d720ea0efe2a88ab621355ca79d4d5d8bd35eec0bf6805e6d17bdc6cbe3ae159"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/08_user-profile.json",
+    "inputBytes": 4796,
+    "inputSha256": "01d20e5b22a07de9786208422355fe9abe639d0a47f9734b65fa8fb2f09ccbcd",
+    "surfaceCount": 1,
+    "totalNodes": 19,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-user-profile",
+        "componentCount": 19,
+        "nodeCount": 19,
+        "verdict": "pass",
+        "irHash": "92eb79968e130059e4463885368fe54b5d9f249f28363e9e54a2aca0c2db909f"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/09_login-form.json",
+    "inputBytes": 5643,
+    "inputSha256": "14a9ccf4c5731f249ccb0ac54c0b028c770aa0c934f509d40a6b5f90a13e1d34",
+    "surfaceCount": 1,
+    "totalNodes": 14,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-login-form",
+        "componentCount": 14,
+        "nodeCount": 14,
+        "verdict": "pass",
+        "irHash": "3ffa0a7c4df83b4b4c3a04f6c00a9a6490706d61cbeca542e52ef8d7a6365d3d"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/10_notification-permission.json",
+    "inputBytes": 2557,
+    "inputSha256": "b8ec56d4b7454d0e940f2ce66a1e334c4b620ac325df019273cef138d8053e08",
+    "surfaceCount": 1,
+    "totalNodes": 10,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-notification-permission",
+        "componentCount": 10,
+        "nodeCount": 10,
+        "verdict": "pass",
+        "irHash": "16d3b4ca02c4fa66f845735caed1f31b092ae1a6f1cd74bf03ac12e508de3720"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/11_purchase-complete.json",
+    "inputBytes": 4358,
+    "inputSha256": "6d62099f563b9cef391fb74667d5c9a2af5068214e6a844293cb2a418b0d0ec4",
+    "surfaceCount": 1,
+    "totalNodes": 19,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-purchase-complete",
+        "componentCount": 19,
+        "nodeCount": 19,
+        "verdict": "pass",
+        "irHash": "b2cf2f73e71ac2ddcc1ff485bfa7fb0ecba2e7d88d849f723b0b48ed106607b0"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/12_chat-message.json",
+    "inputBytes": 3824,
+    "inputSha256": "4b76bf7c15b6dcff6ad217d4541d03239e580906abf6ec4f862937efd4de11f5",
+    "surfaceCount": 1,
+    "totalNodes": 7,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-chat-message",
+        "componentCount": 14,
+        "nodeCount": 7,
+        "verdict": "pass",
+        "irHash": "31ecced5a76c6abe38cd459ace5122a9648c6d187196812c3d1798db75782d9f"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/13_coffee-order.json",
+    "inputBytes": 6361,
+    "inputSha256": "09bed16387c709bd5cd7aaf0e7860abae63ca0918518223ffe050d74fc59d016",
+    "surfaceCount": 1,
+    "totalNodes": 22,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-coffee-order",
+        "componentCount": 27,
+        "nodeCount": 22,
+        "verdict": "pass",
+        "irHash": "90a65c5d67d24729dda571b25510a694c5a9a64b25cf1359f2c3a1346de29338"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/14_sports-player.json",
+    "inputBytes": 4378,
+    "inputSha256": "7043ed7c0b692179a36d9b87e3b3ae5e77f60f3449226f60ebb904ff5bc06473",
+    "surfaceCount": 1,
+    "totalNodes": 19,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-sports-player",
+        "componentCount": 19,
+        "nodeCount": 19,
+        "verdict": "pass",
+        "irHash": "9f698d907dab3e42272438c85df5337a9eccdabec85599b90bf6513c6c264a78"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/15_account-balance.json",
+    "inputBytes": 3092,
+    "inputSha256": "131e762849e175fb9dd2ff208c7f419ee551505af6a6a227d7a07ba459d29a6d",
+    "surfaceCount": 1,
+    "totalNodes": 13,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-account-balance",
+        "componentCount": 13,
+        "nodeCount": 13,
+        "verdict": "pass",
+        "irHash": "84d3a9d61838c4ce150d9eb5c1ab34bc4796be2f5b6084109429d0881e47bb7a"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/16_workout-summary.json",
+    "inputBytes": 4009,
+    "inputSha256": "908a2c2b5e21e9b2cfb79ee18d25d6e219e373c47d129271f6fa1e5b214ba86d",
+    "surfaceCount": 1,
+    "totalNodes": 17,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-workout-summary",
+        "componentCount": 17,
+        "nodeCount": 17,
+        "verdict": "pass",
+        "irHash": "4fcf9c442cd334ebc56350eea69a3f907289bba6865ca24cb192e1c5f1bbb4f1"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/17_event-detail.json",
+    "inputBytes": 3858,
+    "inputSha256": "95362e9dc3a54d4eaaedd36a13bd158fda82b0c29a4a2d4033e8ef58026ae536",
+    "surfaceCount": 1,
+    "totalNodes": 16,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-event-detail",
+        "componentCount": 16,
+        "nodeCount": 16,
+        "verdict": "pass",
+        "irHash": "3e7ac1861ace651c5a154e00c1b47049e7c59afab87f5dfd7709fa52d0f9844f"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/18_track-list.json",
+    "inputBytes": 4044,
+    "inputSha256": "bc11c731cb47c64022bb04db991a31d06ff74ce72d62f5d4d552a241282cf3bb",
+    "surfaceCount": 1,
+    "totalNodes": 7,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-track-list",
+        "componentCount": 14,
+        "nodeCount": 7,
+        "verdict": "pass",
+        "irHash": "5abe03bba308a8eda08d584a4334b381e5a2b96e1de890d0e0a5d6db7d7a6bac"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/19_software-purchase.json",
+    "inputBytes": 4882,
+    "inputSha256": "01d83efb03850118f9ca74d667ff5c9bf236e4df2b98bbdad432ed23cd85db4f",
+    "surfaceCount": 1,
+    "totalNodes": 21,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-software-purchase",
+        "componentCount": 21,
+        "nodeCount": 21,
+        "verdict": "pass",
+        "irHash": "fb10a060d5f38fe992b5da30e94b4263220b706d7a53ee84b2e1d6bdb01febf8"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/20_restaurant-card.json",
+    "inputBytes": 3621,
+    "inputSha256": "fb26e3c7154c19637143937f411c8050639e4e62fd7b57bc42020fd16c1f4826",
+    "surfaceCount": 1,
+    "totalNodes": 15,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-restaurant-card",
+        "componentCount": 15,
+        "nodeCount": 15,
+        "verdict": "pass",
+        "irHash": "c019606c41b2fe326ec383326b971029c5f4c1cdd0986ac84e8e08e910417536"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/21_shipping-status.json",
+    "inputBytes": 3426,
+    "inputSha256": "ed19e77a61621d522b7aaf9ffb170aca0d8255c525030d13a80a6fd9a8a0082b",
+    "surfaceCount": 1,
+    "totalNodes": 11,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-shipping-status",
+        "componentCount": 14,
+        "nodeCount": 11,
+        "verdict": "pass",
+        "irHash": "bbb0008a426873bd36ed4f7123137800d407525c824539ec063d10e07f0ddf0b"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/22_credit-card.json",
+    "inputBytes": 2982,
+    "inputSha256": "7efd1e726167321060f0434de287733d1a703ef0fa9090c194603f5ae8c638c5",
+    "surfaceCount": 1,
+    "totalNodes": 13,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-credit-card",
+        "componentCount": 13,
+        "nodeCount": 13,
+        "verdict": "pass",
+        "irHash": "36e61bd39329e83d37bb92349b29e7a75476bc89dcabbe7af56964b16aa95751"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/23_step-counter.json",
+    "inputBytes": 3639,
+    "inputSha256": "3178362fc7952f9d0bf3fc9bf05c6702f29a69ace458c4cd0ff9ff2323e334f8",
+    "surfaceCount": 1,
+    "totalNodes": 15,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-step-counter",
+        "componentCount": 15,
+        "nodeCount": 15,
+        "verdict": "pass",
+        "irHash": "aa345f638e2d75ff1f3f941857cb3bfe151f53cc3b132c92b1a8823464e31fe0"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/24_recipe-card.json",
+    "inputBytes": 5768,
+    "inputSha256": "d1c331d59aa751de88eef0386af3efdb3da62be4fd53dcfc880a39e0feada3ec",
+    "surfaceCount": 1,
+    "totalNodes": 2,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-recipe-card",
+        "componentCount": 21,
+        "nodeCount": 2,
+        "verdict": "pass",
+        "irHash": "7a40f87280be6cda566436a7044986c4d489ee8a49df555d73e4ee8dba04feda"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/25_contact-card.json",
+    "inputBytes": 4465,
+    "inputSha256": "2c856fccb762f329bccf0fe30953c694f42f406ddc8ae966be23c33abf83b233",
+    "surfaceCount": 1,
+    "totalNodes": 21,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-contact-card",
+        "componentCount": 21,
+        "nodeCount": 21,
+        "verdict": "pass",
+        "irHash": "ac7d88af243060a67b0341a610f6d23805b7d6ae7f30b9722edaf0a06ef8c848"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/26_podcast-episode.json",
+    "inputBytes": 3274,
+    "inputSha256": "69c9122977186aff7258ba6b5ee88cb89c17bc24a75a941c66f1b83f779f833d",
+    "surfaceCount": 1,
+    "totalNodes": 11,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-podcast-episode",
+        "componentCount": 11,
+        "nodeCount": 11,
+        "verdict": "pass",
+        "irHash": "42f842d90e5a08473aaf26d9e03fff752949de913a70a05a1e286b7caee0076b"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/27_stats-card.json",
+    "inputBytes": 2573,
+    "inputSha256": "2f3c5774670a1cf7fa143676a7f24aa6cda82f0d43d3946a266619d7cb70fbc0",
+    "surfaceCount": 1,
+    "totalNodes": 9,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-stats-card",
+        "componentCount": 9,
+        "nodeCount": 9,
+        "verdict": "pass",
+        "irHash": "26245b1925e6bef5870a631e1be404bb8b29449d1ad032bb5789dfd1038f7269"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/28_countdown-timer.json",
+    "inputBytes": 3331,
+    "inputSha256": "70d6f7c42b1246f96d8714b17ff1b861e7f138315685d9471c069e32fc95d078",
+    "surfaceCount": 1,
+    "totalNodes": 14,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-countdown-timer",
+        "componentCount": 14,
+        "nodeCount": 14,
+        "verdict": "pass",
+        "irHash": "b3ad93435d4eef8d1c8e1fc0566cd433057c5eb4f74528794d86f1632ed0066d"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/29_movie-card.json",
+    "inputBytes": 4070,
+    "inputSha256": "03ba1d8e416286360d88fb0a16a8f7067d234585058669c2ca94999d251beec7",
+    "surfaceCount": 1,
+    "totalNodes": 17,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-movie-card",
+        "componentCount": 18,
+        "nodeCount": 17,
+        "verdict": "pass",
+        "irHash": "2d6884dd3ee560acd19f863db6ba19f1c8889be4e9658595ffb76f542f29adb7"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/30_live-invitation-builder.json",
+    "inputBytes": 5705,
+    "inputSha256": "7b662fb0de1d80a576d894b74d4b8aedfbb02d7a76db77f07833070cbfcbcc6a",
+    "surfaceCount": 1,
+    "totalNodes": 20,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-invitation-builder",
+        "componentCount": 20,
+        "nodeCount": 20,
+        "verdict": "pass",
+        "irHash": "2efbebdc3dd0976206b3ba1b431c5bf1c95a932c44b57ec1f99e2a87e1fb4c85"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/31_incremental-dashboard.json",
+    "inputBytes": 3428,
+    "inputSha256": "4f296ff6bab34479d5cbb1ddae6d4214bbee4eb8d5856349991a16cb38f0dde4",
+    "surfaceCount": 1,
+    "totalNodes": 8,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-incremental-dashboard",
+        "componentCount": 11,
+        "nodeCount": 8,
+        "verdict": "pass",
+        "irHash": "4542a7f0b7f09bde12ea701771400ca85c2ac0351d477295b6ca9e167ee09d09"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/32_advanced-form-validator.json",
+    "inputBytes": 5789,
+    "inputSha256": "02fd57942e4e084a467bc52513792f1d4828850f547f139ad958dc80e9afdc7e",
+    "surfaceCount": 1,
+    "totalNodes": 9,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-advanced-validator",
+        "componentCount": 9,
+        "nodeCount": 9,
+        "verdict": "pass",
+        "irHash": "9ec5cf3e0206fb58cd998b11e3b6c93fa054644b456105d649fefa9a8a0793b7"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/33_financial-data-grid.json",
+    "inputBytes": 4785,
+    "inputSha256": "dff32cee106d9ac93127f89c7e87e5ebdc899117ddfa4a396bb1423f62c04459",
+    "surfaceCount": 1,
+    "totalNodes": 8,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-financial-grid",
+        "componentCount": 17,
+        "nodeCount": 8,
+        "verdict": "pass",
+        "irHash": "7f6ddf6ba67f992cb233656421d9635470c5c6bdf98375d0b973e5796f27c766"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/34_child-list-template.json",
+    "inputBytes": 2221,
+    "inputSha256": "c97372694cbfacb241e9aefa6a5d28b82e40073634baee8df8a21ddad0e74e42",
+    "surfaceCount": 1,
+    "totalNodes": 4,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-child-list-template",
+        "componentCount": 8,
+        "nodeCount": 4,
+        "verdict": "pass",
+        "irHash": "dcbe9299b74200fb2a2297262add1eee4dfe81b76a87a39d78888200b9f23879"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/35_markdown-text.json",
+    "inputBytes": 1199,
+    "inputSha256": "e031e7be34b29841c687f27e216558460b193e3bcc9e1c9ca10664c42a77c6b8",
+    "surfaceCount": 1,
+    "totalNodes": 4,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "gallery-markdown-text",
+        "componentCount": 4,
+        "nodeCount": 4,
+        "verdict": "pass",
+        "irHash": "7e59cdd5dbd075dff66a4cb3cbf58b5b96de79b1e36c79d60537b112202d86c6"
+      }
+    ]
+  },
+  {
+    "file": "basic-v1/36_modal.json",
+    "inputBytes": 1632,
+    "inputSha256": "a66c3381f8e03b2465b615042e849dc28a30e1ffb2af88cc021d6d69869572c9",
+    "surfaceCount": 1,
+    "totalNodes": 3,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "modal-sample-surface",
+        "componentCount": 7,
+        "nodeCount": 3,
+        "verdict": "pass",
+        "irHash": "100c6a016c9339002ce1e36894b1f112c926977beb88f7c3349f94aaefa49da5"
+      }
+    ]
+  },
+  {
+    "file": "eval-payloads/restaurant_single_column_list_v0_9_1.json",
+    "inputBytes": 3753,
+    "inputSha256": "ddcb59b6f4508f88c78ae82faaf2e96167ac6e1427c73f954dbd1fd505326d15",
+    "surfaceCount": 1,
+    "totalNodes": 3,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "main",
+        "componentCount": 13,
+        "nodeCount": 3,
+        "verdict": "pass",
+        "irHash": "66862abbabc8914d9e020c87a830f6d50c2dd305c9b1e9476cb9531ea0de04c1"
+      }
+    ]
+  },
+  {
+    "file": "eval-payloads/restaurant_single_column_list_v1_0.json",
+    "inputBytes": 3604,
+    "inputSha256": "346577e41833fd80d6e428c7d272bc67bd7cfc8bb47dbc98102916739613b761",
+    "surfaceCount": 1,
+    "totalNodes": 3,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "main",
+        "componentCount": 13,
+        "nodeCount": 3,
+        "verdict": "pass",
+        "irHash": "ff1815ef9ca566b91bfdd5cdc9e767a79e425ad28e5f35c6d67f5e3e503dfa8d"
+      }
+    ]
+  },
+  {
+    "file": "eval-payloads/restaurant_two_column_list_v0_9_1.json",
+    "inputBytes": 5635,
+    "inputSha256": "2aa4c6154a7e6eb348f2c95d86c19809d2e1654f839f4077c4f6740d377971e4",
+    "surfaceCount": 1,
+    "totalNodes": 3,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "main",
+        "componentCount": 22,
+        "nodeCount": 3,
+        "verdict": "pass",
+        "irHash": "194b44cf4c07a21a1c31096643e8c1de2fd530639a0caa7c8fbc066772d22653"
+      }
+    ]
+  },
+  {
+    "file": "eval-payloads/restaurant_two_column_list_v1_0.json",
+    "inputBytes": 5520,
+    "inputSha256": "2785b21d92d0b40bd7f05f78c8fccd45a6d549498e2eafa9dc1ee1b9eff24c08",
+    "surfaceCount": 1,
+    "totalNodes": 3,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "main",
+        "componentCount": 22,
+        "nodeCount": 3,
+        "verdict": "pass",
+        "irHash": "4c22d2630302940f9a3e4e1d6327b6e510cc642188a80ef0cd10c95cd3ffa820"
+      }
+    ]
+  },
+  {
+    "file": "eval-payloads/rizzcharts_chart_v0_9_1.json",
+    "inputBytes": 2202,
+    "inputSha256": "38860f1b94618af75203e851f6fa9e929c2e98763edf46890dcd24e725fd81f6",
+    "surfaceCount": 1,
+    "totalNodes": 3,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "sales_dashboard",
+        "componentCount": 3,
+        "nodeCount": 3,
+        "verdict": "pass",
+        "irHash": "3773e763b2e08fd8e82fd02661fff5d38c364d911c3a823d4ee0581ce898ef1c"
+      }
+    ]
+  },
+  {
+    "file": "eval-payloads/rizzcharts_chart_v1_0.json",
+    "inputBytes": 2823,
+    "inputSha256": "c0cdba00abab0a9cde60c4f2c3394ba6c542183e954c6d8b4d2bc878878d7725",
+    "surfaceCount": 1,
+    "totalNodes": 3,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "sales_dashboard",
+        "componentCount": 3,
+        "nodeCount": 3,
+        "verdict": "pass",
+        "irHash": "16c6cd2b05479bec694fb6accee51d764e0ebd407f5090870aad86c7cdfb44ba"
+      }
+    ]
+  },
+  {
+    "file": "eval-payloads/rizzcharts_map_v0_9_1.json",
+    "inputBytes": 2285,
+    "inputSha256": "5113b7b29b6feda051df446b80145cead131b4ee7a2e68f010b10e1c92918a29",
+    "surfaceCount": 1,
+    "totalNodes": 3,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "la_map_view",
+        "componentCount": 3,
+        "nodeCount": 3,
+        "verdict": "pass",
+        "irHash": "631765c362ac483869d0508e78d9e99947284dd324b847cae089fb92e98d3fdc"
+      }
+    ]
+  },
+  {
+    "file": "eval-payloads/rizzcharts_map_v1_0.json",
+    "inputBytes": 2258,
+    "inputSha256": "270005db6bab25c58aab659ce1029c334f74dacd4a2164876e6ce707e3d6f8e7",
+    "surfaceCount": 1,
+    "totalNodes": 3,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "la_map_view",
+        "componentCount": 3,
+        "nodeCount": 3,
+        "verdict": "pass",
+        "irHash": "3ad56a7e3d7808b2c2a2955a8fe9ff0e753003093876edcf8340b11131385f22"
+      }
+    ]
+  },
+  {
+    "file": "spec-cases/contact_form_v0_9_1.jsonl",
+    "inputBytes": 3753,
+    "inputSha256": "b924ff3bb72fdb1a8bdcbf93bdc66e75a115a2ffb73fede57b88b1e6346d5086",
+    "surfaceCount": 1,
+    "totalNodes": 25,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "contact_form_1",
+        "componentCount": 25,
+        "nodeCount": 25,
+        "verdict": "pass",
+        "irHash": "46dce07ea5c334793295fa75607dfb018ab75d370e80a63b0eaddcc5090270f2"
+      }
+    ]
+  },
+  {
+    "file": "spec-cases/contact_form_v1_0.jsonl",
+    "inputBytes": 4029,
+    "inputSha256": "66abd2473e608e65f24aabf8abf337e246f5451f55ae82563c01ee8f2e8b0c78",
+    "surfaceCount": 1,
+    "totalNodes": 25,
+    "adapterIssueCount": 0,
+    "exitCode": 0,
+    "surfaces": [
+      {
+        "surfaceId": "contact_form_1",
+        "componentCount": 25,
+        "nodeCount": 25,
+        "verdict": "pass",
+        "irHash": "95f47aec632ab093b377482143e40909b2abcb9cdd181c49d890cd6c57914a41"
+      }
+    ]
+  }
+]
