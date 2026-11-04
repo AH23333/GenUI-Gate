@@ -1,4 +1,4 @@
-import type { IRNode } from '@genui/ir';
+import type { IRNode, JsonValue } from '@genui/ir';
 
 export type Severity = 'info' | 'warn' | 'error' | 'critical';
 
@@ -10,6 +10,9 @@ export interface TraceEntry {
   action: VerdictAction;
   nodePath: string;
   message: string;
+  /** fix 阶段专用：修改前后的值快照（v2 §6.3） */
+  before?: JsonValue;
+  after?: JsonValue;
 }
 
 export interface GateResult {

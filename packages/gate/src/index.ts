@@ -14,6 +14,16 @@ export {
   type SchemaIssue,
   type SchemaType,
 } from './schema';
+export {
+  MAX_FIX_CHAIN,
+  MAX_FIX_PATH_DEPTH,
+  applyFixes,
+  parseNodePath,
+  type Fixer,
+  type FixerResult,
+  type FixRequest,
+  type FixResult,
+} from './fix';
 export { checkWhitelist } from './whitelist';
 export {
   aggregate,
