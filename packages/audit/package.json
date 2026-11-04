@@ -1,0 +1,23 @@
+{
+  "name": "@genui/audit",
+  "version": "0.1.0",
+  "description": "Headless GenUI quality report CLI: genui-audit <spec-file> (Lighthouse mode)",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "bin": {
+    "genui-audit": "./bin/genui-audit.mjs"
+  },
+  "dependencies": {
+    "@genui/adapter-a2ui": "workspace:*",
+    "@genui/gate": "workspace:*",
+    "@genui/ir": "workspace:*"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0"
+  }
+}
