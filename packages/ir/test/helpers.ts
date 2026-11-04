@@ -13,7 +13,12 @@ export function reverseKeys(value: JsonValue): JsonValue {
     const entries = Object.entries(value).reverse();
     const out: Record<string, JsonValue> = {};
     for (const [key, child] of entries) {
-      out[key] = reverseKeys(child);
+      Object.defineProperty(out, key, {
+        value: reverseKeys(child),
+        enumerable: true,
+        writable: true,
+        configurable: true,
+      });
     }
     return out;
   }

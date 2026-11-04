@@ -50,6 +50,13 @@ describe('canonicalize', () => {
     );
   });
 
+  it('keeps an own __proto__ key as a regular key', () => {
+    const value = JSON.parse('{"__proto__": false}') as Record<string, JsonValue>;
+    expect(Object.keys(value)).toEqual(['__proto__']);
+    expect(canonicalize(value)).toBe('{"__proto__":false}');
+    expect(JSON.parse(canonicalize(value))).toStrictEqual(value);
+  });
+
   it('reaches a fixed point after one canonicalization (idempotence)', () => {
     fc.assert(
       fc.property(jsonArb(), (value) => {

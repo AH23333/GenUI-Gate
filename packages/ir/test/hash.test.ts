@@ -43,12 +43,22 @@ function reverseNodeKeys(root: IRNode): IRNode {
     const node = stack.pop()!;
     const reorderedProps: Record<string, JsonValue> = {};
     for (const key of Object.keys(node.props).reverse()) {
-      reorderedProps[key] = node.props[key]!;
+      Object.defineProperty(reorderedProps, key, {
+        value: node.props[key]!,
+        enumerable: true,
+        writable: true,
+        configurable: true,
+      });
     }
     node.props = reorderedProps;
     const reorderedSlots: Record<string, IRNode[]> = {};
     for (const key of Object.keys(node.slots).reverse()) {
-      reorderedSlots[key] = node.slots[key]!;
+      Object.defineProperty(reorderedSlots, key, {
+        value: node.slots[key]!,
+        enumerable: true,
+        writable: true,
+        configurable: true,
+      });
       for (const child of node.slots[key]!) stack.push(child);
     }
     node.slots = reorderedSlots;
@@ -92,6 +102,13 @@ describe('canonicalHash', () => {
       }),
       { numRuns: 200 },
     );
+  });
+
+  it('is invariant to key order with an own __proto__ key (CI run 1 regression)', () => {
+    const value = JSON.parse('{"__proto__": false, "a": 1}') as JsonValue;
+    const copy = reverseKeys(structuredClone(value)) as Record<string, JsonValue>;
+    expect(Object.keys(copy)).toEqual(['a', '__proto__']);
+    expect(canonicalHash(copy)).toBe(canonicalHash(value));
   });
 
   it('distinguishes different values', () => {

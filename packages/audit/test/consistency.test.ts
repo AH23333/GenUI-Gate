@@ -8,7 +8,7 @@ import { audit, auditExitCode } from '../src/analyze';
  * A8 cross-platform determinism device (v2 assumption A8):
  * full pipeline digests (parse + adapt + canonical hash + gate) over the whole
  * official corpus, asserted against goldens committed from one platform and
- * re-verified by the CI matrix (ubuntu/windows x node 20/22).
+ * re-verified by the CI matrix (ubuntu/windows x node 22).
  *
  * Regenerate with: UPDATE_GOLDENS=1 pnpm vitest run packages/audit/test/consistency.test.ts
  */
