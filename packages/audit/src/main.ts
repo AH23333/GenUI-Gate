@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, statSync } from 'node:fs';
 import { runCli } from './cli';
 
 function readVersion(): string {
@@ -16,6 +16,7 @@ function readVersion(): string {
 const code = runCli(
   process.argv.slice(2),
   {
+    size: (path) => statSync(path).size,
     read: (path) => readFileSync(path, 'utf8'),
     stdout: (text) => {
       process.stdout.write(text);

@@ -1,6 +1,8 @@
 import { audit, auditExitCode } from './analyze';
 import { renderJson, renderText } from './report';
 
+export const MAX_INPUT_BYTES = 16 * 1024 * 1024;
+
 export const USAGE = `Usage: genui-audit [options] <spec-file>
 
 Audit an A2UI spec (single message, message array, JSONL, or example wrapper)
@@ -15,9 +17,12 @@ Exit codes:
   0  audit passed (no parse error, at least one surface record, no blocked live surface)
   1  usage or file read error
   2  audit blocked (parse error, no surfaces at all, or a blocked surface)
+
+Inputs larger than ${MAX_INPUT_BYTES} bytes (16 MiB) are rejected with exit 1.
 `;
 
 export interface CliIo {
+  size(path: string): number;
   read(path: string): string;
   stdout(text: string): void;
   stderr(text: string): void;
@@ -54,6 +59,13 @@ export function runCli(argv: string[], io: CliIo, version: string): number {
   const file = files[0]!;
   let raw: string;
   try {
+    const bytes = io.size(file);
+    if (bytes > MAX_INPUT_BYTES) {
+      io.stderr(
+        `genui-audit: input file "${file}" is ${bytes} bytes, exceeding the input limit of ${MAX_INPUT_BYTES} bytes\n`,
+      );
+      return 1;
+    }
     raw = io.read(file);
   } catch (error) {
     const detail = error instanceof Error ? `: ${error.message}` : '';

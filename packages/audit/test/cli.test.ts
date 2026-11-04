@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { afterAll, describe, expect, it, vi } from 'vitest';
-import { runCli, USAGE, type CliIo } from '../src/cli';
+import { runCli, USAGE, MAX_INPUT_BYTES, type CliIo } from '../src/cli';
 
 // Integration tests spawn node + tsx per case; under parallel worker load the
 // default 5s timeout is too tight (observed flake), so raise it for this file.
@@ -17,9 +17,14 @@ const officialFixtures = join(packageRoot, '..', 'adapter-a2ui', 'test', 'fixtur
 class RecordingIo implements CliIo {
   readonly out: string[] = [];
   readonly err: string[] = [];
+  sizeImpl: (path: string) => number = () => 0;
   readImpl: (path: string) => string = () => {
     throw new Error('not configured');
   };
+
+  size(path: string): number {
+    return this.sizeImpl(path);
+  }
 
   read(path: string): string {
     return this.readImpl(path);
@@ -141,6 +146,25 @@ describe('runCli (pure core)', () => {
     expect(runCli(['weird.json'], io, 'v-test')).toBe(1);
     expect(io.err[0]).toContain('cannot read file "weird.json"');
   });
+
+  it('exits 1 when the input exceeds the byte limit', () => {
+    const io = new RecordingIo();
+    io.sizeImpl = () => MAX_INPUT_BYTES + 1;
+    io.readImpl = () => {
+      throw new Error('read must not be reached');
+    };
+    expect(runCli(['huge.json'], io, 'v-test')).toBe(1);
+    expect(io.err[0]).toContain('exceeding the input limit');
+    expect(io.err[0]).toContain(`is ${MAX_INPUT_BYTES + 1} bytes`);
+  });
+
+  it('accepts an input at exactly the byte limit', () => {
+    const io = new RecordingIo();
+    io.sizeImpl = () => MAX_INPUT_BYTES;
+    io.readImpl = () => readFileSync(PASSING_FIXTURE, 'utf8');
+    expect(runCli([PASSING_FIXTURE], io, 'v-test')).toBe(0);
+    expect(io.out[0]).toContain('Overall: PASS');
+  });
 });
 
 describe('genui-audit bin (integration)', () => {
@@ -209,5 +233,14 @@ describe('genui-audit bin (integration)', () => {
     const result = runBin([garbagePath]);
     expect(result.status).toBe(2);
     expect(result.stdout).toContain('Overall: BLOCK');
+  });
+
+  it('exits 1 on an oversized input through the real bin', () => {
+    const hugePath = join(packageRoot, 'test', 'tmp-huge.spec.json');
+    writeFileSync(hugePath, 'x'.repeat(MAX_INPUT_BYTES + 1), 'utf8');
+    tmpFiles.push(hugePath);
+    const result = runBin([hugePath]);
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain('exceeding the input limit');
   });
 });
