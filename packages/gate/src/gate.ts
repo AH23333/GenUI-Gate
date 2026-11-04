@@ -1,6 +1,8 @@
 import type { IRNode } from '@genui/ir';
 import { DEFAULT_LIMITS, checkLimits, type Limits } from './limits';
+import { checkSchema, validateCatalog, type Catalog } from './schema';
 import type { GateResult, TraceEntry, VerdictAction } from './types';
+import { checkWhitelist } from './whitelist';
 
 const ACTION_RANK: Record<VerdictAction, number> = {
   pass: 0,
@@ -21,10 +23,16 @@ export function aggregate(trace: TraceEntry[]): VerdictAction {
 
 export interface GateOptions {
   limits?: Partial<Limits>;
+  catalog?: Catalog;
 }
 
 export function gate(ir: IRNode, options: GateOptions = {}): GateResult {
   const limits: Limits = { ...DEFAULT_LIMITS, ...options.limits };
   const trace: TraceEntry[] = checkLimits(ir, limits);
+  if (options.catalog !== undefined) {
+    validateCatalog(options.catalog);
+    trace.push(...checkSchema(ir, options.catalog));
+    trace.push(...checkWhitelist(ir, options.catalog));
+  }
   return { ir, verdict: aggregate(trace), trace };
 }
