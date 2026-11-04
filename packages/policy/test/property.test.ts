@@ -163,6 +163,7 @@ describe('policy fuzz (v2 7.2/15.5)', () => {
     fc.assert(property, { numRuns: 100 });
   });
 
+  // 显式 20s：coverage 插桩 + 机器负载下 5s 默认超时偶发假红（与 gate 幂等测试同类，PIT-008）
   it('evaluation is deterministic on random trees', () => {
     const property = fc.property(validDocArb, irArb(), (doc, ir) => {
       const compiled = compilePolicy(doc);
@@ -172,7 +173,7 @@ describe('policy fuzz (v2 7.2/15.5)', () => {
       expect(second.fixRequests).toEqual(first.fixRequests);
     });
     fc.assert(property, { numRuns: 100 });
-  });
+  }, 20000);
 
   it('layer relaxation is always rejected with the rule id', () => {
     const relaxPairs: readonly (readonly [Combo, Combo])[] = [

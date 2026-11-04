@@ -78,6 +78,9 @@ importers:
 
   packages/session:
     dependencies:
+      '@genui/gate':
+        specifier: workspace:*
+        version: link:../gate
       '@genui/ir':
         specifier: workspace:*
         version: link:../ir

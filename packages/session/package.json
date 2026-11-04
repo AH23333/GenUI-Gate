@@ -10,6 +10,7 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
+    "@genui/gate": "workspace:*",
     "@genui/ir": "workspace:*"
   }
 }
