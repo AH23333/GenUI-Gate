@@ -65,7 +65,7 @@ $ echo $?
 Requires Node >= 20 and pnpm 11 (M0 runs from the repo; `npm i -g genui-audit` lands with the first release).
 
 ```bash
-git clone <repo-url> genui-gate
+git clone https://github.com/AH23333/GenUI-Gate.git genui-gate
 cd genui-gate
 pnpm install
 
