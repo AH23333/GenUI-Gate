@@ -37,6 +37,9 @@ function isContainer(value: unknown): value is Record<string, unknown> | unknown
 /**
  * Resolves the parent container and final key for `tokens` inside `root`,
  * creating intermediate plain objects along the way (upsert semantics).
+ * Own-property semantics throughout: inherited properties never act as
+ * intermediate containers, and intermediates are created via defineProperty
+ * so an "__proto__" token becomes an own JSON key, never a prototype swap.
  */
 function resolve(root: Record<string, unknown>, tokens: string[]): Cursor {
   let container: Record<string, unknown> | unknown[] = root;
@@ -53,10 +56,11 @@ function resolve(root: Record<string, unknown>, tokens: string[]): Cursor {
       }
       ensured = container[index];
     } else {
-      if (container[token] === undefined || container[token] === null) {
-        container[token] = {};
+      const existing = Object.hasOwn(container, token) ? container[token] : undefined;
+      if (existing === undefined || existing === null) {
+        defineOwn(container, token, {});
       }
-      ensured = container[token];
+      ensured = Object.hasOwn(container, token) ? container[token] : undefined;
     }
     if (!isContainer(ensured)) {
       throw new PointerError(`path segment ${tokens.slice(0, i + 1).join('/')} is not an object or array`);
@@ -66,7 +70,11 @@ function resolve(root: Record<string, unknown>, tokens: string[]): Cursor {
   return { container, key: tokens[tokens.length - 1]! };
 }
 
-/** RFC 6901 evaluation; returns undefined when the path does not resolve. */
+/**
+ * RFC 6901 evaluation; returns undefined when the path does not resolve.
+ * Own-property semantics: a JSON document has no prototype chain, so
+ * inherited properties (toString, constructor, ...) never resolve.
+ */
 export function pointerGet(root: Record<string, unknown>, pointer: string): unknown {
   const tokens = pointerTokens(pointer);
   let current: unknown = root;
@@ -76,14 +84,29 @@ export function pointerGet(root: Record<string, unknown>, pointer: string): unkn
       current = current[toIndex(token) ?? -1];
       continue;
     }
-    current = (current as Record<string, unknown>)[token];
+    const record = current as Record<string, unknown>;
+    current = Object.hasOwn(record, token) ? record[token] : undefined;
   }
   return current;
 }
 
 /**
+ * Assigns an own property without ever invoking the `__proto__` setter
+ * (bracket assignment on plain objects hijacks the prototype; PIT-009).
+ */
+function defineOwn(container: Record<string, unknown>, key: string, value: unknown): void {
+  Object.defineProperty(container, key, {
+    value,
+    writable: true,
+    enumerable: true,
+    configurable: true,
+  });
+}
+
+/**
  * RFC 6901-style upsert. Replaces (or creates) the value at `pointer`.
  * When `value` is null the key at `pointer` is removed (A2UI null-means-delete).
+ * Own-property semantics: writes never reach the prototype chain (PIT-009).
  */
 export function pointerSet(root: Record<string, unknown>, pointer: string, value: unknown): void {
   const tokens = pointerTokens(pointer);
@@ -107,8 +130,8 @@ export function pointerSet(root: Record<string, unknown>, pointer: string, value
     return;
   }
   if (value === null) {
-    delete container[key];
+    if (Object.hasOwn(container, key)) delete container[key];
     return;
   }
-  container[key] = value;
+  defineOwn(container, key, value);
 }

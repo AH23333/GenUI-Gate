@@ -5,12 +5,22 @@ import type {
   SurfaceAudit,
 } from './types';
 
-/** Machine-readable report (JSON-safe, deterministic field order). */
+/** Machine-readable report (JSON-safe, deterministic field order; JSON.stringify escapes control chars). */
 export function renderJson(report: AuditReport): string {
   return `${JSON.stringify(report, null, 2)}\n`;
 }
 
-/** Human-readable terminal report. ASCII-only, no ANSI codes, no timestamps. */
+/**
+ * Strips all C0 control characters and DEL from input-derived strings before
+ * they reach the terminal: no terminal escape injection, no forged report
+ * lines via embedded \n/\r (defense recorded as PIT-008). renderText itself
+ * only ever uses \n from `lines.join('\n')`, never from input.
+ */
+function safeText(value: string): string {
+  return value.replace(/[\x00-\x1F\x7F]/g, '');
+}
+
+/** Human-readable terminal report. No ANSI codes, no control characters, no timestamps. */
 export function renderText(report: AuditReport): string {
   const lines: string[] = [];
   lines.push('GenUI Gate audit report');
@@ -37,8 +47,8 @@ function pushSurface(lines: string[], surface: SurfaceAudit): void {
   if (surface.deleted) tags.push('deleted');
   if (surface.blocked) tags.push('blocked');
   const tagSuffix = tags.length > 0 ? ` [${tags.join(', ')}]` : '';
-  const catalogSuffix = surface.catalogId !== undefined ? ` (${surface.catalogId})` : '';
-  lines.push(`Surface "${surface.surfaceId}"${catalogSuffix}${tagSuffix}`);
+  const catalogSuffix = surface.catalogId !== undefined ? ` (${safeText(surface.catalogId)})` : '';
+  lines.push(`Surface "${safeText(surface.surfaceId)}"${catalogSuffix}${tagSuffix}`);
   lines.push(
     `  Components: ${surface.componentCount}, nodes: ${surface.nodeCount}, max depth: ${surface.maxDepth}`,
   );
@@ -60,7 +70,7 @@ function pushSurface(lines: string[], surface: SurfaceAudit): void {
 function pushRuleHit(lines: string[], hit: RuleHit): void {
   lines.push(`  Rule: ${hit.ruleId} (${hit.severity}/${hit.action}) x${hit.count}`);
   for (const sample of hit.samples) {
-    lines.push(`    ${sample.nodePath}: ${sample.message}`);
+    lines.push(`    ${safeText(sample.nodePath)}: ${safeText(sample.message)}`);
   }
 }
 
@@ -81,7 +91,7 @@ function pushIssues(lines: string[], report: AuditReport): void {
   for (const group of report.adapterIssues) {
     lines.push(`  ${group.code} x${group.count}`);
     for (const sample of group.samples) {
-      lines.push(`    ${sample}`);
+      lines.push(`    ${safeText(sample)}`);
     }
   }
   lines.push('');

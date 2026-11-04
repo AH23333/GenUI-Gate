@@ -100,4 +100,33 @@ describe('pointerSet', () => {
     expect(() => pointerSet(root, '/items/notanindex', 1)).toThrow(PointerError);
     expect(() => pointerSet(root, '', 'x')).toThrow(PointerError);
   });
+
+  it('never pollutes Object.prototype through a "__proto__" pointer (PIT-009 regression)', () => {
+    const doc: Record<string, unknown> = {};
+    pointerSet(doc, '/__proto__/polluted', 'x');
+    expect(Object.prototype).not.toHaveProperty('polluted');
+    expect(({} as Record<string, unknown>)['polluted']).toBeUndefined();
+    expect(Object.hasOwn(doc, '__proto__')).toBe(true);
+    expect(pointerGet(doc, '/__proto__/polluted')).toBe('x');
+
+    const deleted: Record<string, unknown> = {};
+    pointerSet(deleted, '/__proto__/polluted', 'x');
+    pointerSet(deleted, '/__proto__/polluted', null);
+    expect(Object.prototype).not.toHaveProperty('polluted');
+  });
+
+  it('treats inherited properties as absent and writes own keys only (PIT-009 regression)', () => {
+    const doc: Record<string, unknown> = {};
+    expect(pointerGet(doc, '/toString')).toBeUndefined();
+    expect(pointerGet(doc, '/constructor')).toBeUndefined();
+    expect(pointerGet(doc, '/hasOwnProperty')).toBeUndefined();
+
+    pointerSet(doc, '/toString/', 0);
+    expect(Object.hasOwn(doc, 'toString')).toBe(true);
+    expect(pointerGet(doc, '/toString/')).toBe(0);
+
+    pointerSet(doc, '/a/constructor', 'own');
+    expect(Object.prototype).not.toHaveProperty('a');
+    expect(pointerGet(doc, '/a/constructor')).toBe('own');
+  });
 });
