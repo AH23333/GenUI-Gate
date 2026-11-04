@@ -199,19 +199,32 @@ describe('applyFixes', () => {
     expect(result.trace[0]!.action).toBe('transform');
   });
 
-  it('caps the fix chain at MAX_FIX_CHAIN and degrades the remainder to block (v2 §6.6)', () => {
+  it('rejects the whole batch when requests exceed MAX_FIX_CHAIN (v2 §6.6, all-or-nothing for §15.0)', () => {
     const requests: FixRequest[] = [];
     for (let i = 0; i < MAX_FIX_CHAIN + 1; i++) {
       requests.push(request({ nodePath: '<root>', fixer: 'bump', message: 'chain fill' }));
     }
     const result = applyFixes(root, requests, FIXERS);
+    expect(result.applied).toBe(0);
+    expect(result.ir).toBe(root);
+    expect(result.trace).toHaveLength(MAX_FIX_CHAIN + 1);
+    expect(result.trace.filter((entry) => entry.action === 'transform')).toHaveLength(0);
+    for (const entry of result.trace) {
+      expect(entry.action).toBe('block');
+      expect(entry.message).toContain(`fix chain exceeded ${MAX_FIX_CHAIN} applications`);
+    }
+  });
+
+  it('applies exactly MAX_FIX_CHAIN requests at the boundary without degradation', () => {
+    const requests: FixRequest[] = [];
+    for (let i = 0; i < MAX_FIX_CHAIN; i++) {
+      requests.push(request({ nodePath: '<root>', fixer: 'bump', message: 'chain fill' }));
+    }
+    const result = applyFixes(root, requests, FIXERS);
     expect(result.applied).toBe(MAX_FIX_CHAIN);
     expect(result.ir.props['n']).toBe(MAX_FIX_CHAIN);
-    expect(result.trace).toHaveLength(MAX_FIX_CHAIN + 1);
-    expect(result.trace.filter((entry) => entry.action === 'transform')).toHaveLength(MAX_FIX_CHAIN);
-    const degraded = result.trace[MAX_FIX_CHAIN]!;
-    expect(degraded.action).toBe('block');
-    expect(degraded.message).toContain(`fix chain exceeded ${MAX_FIX_CHAIN} applications`);
+    expect(result.trace).toHaveLength(MAX_FIX_CHAIN);
+    expect(result.trace.every((entry) => entry.action === 'transform')).toBe(true);
   });
 
   it('keeps the last before/after of the chain consistent (budget overflow trace)', () => {

@@ -60,6 +60,10 @@ importers:
       '@genui/ir':
         specifier: workspace:*
         version: link:../ir
+    devDependencies:
+      '@genui/policy':
+        specifier: workspace:*
+        version: link:../policy
 
   packages/ir: {}
 

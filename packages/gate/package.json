@@ -11,5 +11,8 @@
   },
   "dependencies": {
     "@genui/ir": "workspace:*"
+  },
+  "devDependencies": {
+    "@genui/policy": "workspace:*"
   }
 }

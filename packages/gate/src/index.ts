@@ -31,4 +31,6 @@ export {
   isValidVerdictCombo,
   projectVerdict,
   type GateOptions,
+  type PolicyEvaluation,
+  type PolicyEvaluator,
 } from './gate';

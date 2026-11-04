@@ -93,8 +93,11 @@ function degrade(request: FixRequest, reason: string): TraceEntry {
 
 /**
  * 应用 fix 链（v2 §6.1 fix 阶段 / §6.4 / §6.6）。
- * 逐请求串行应用；任何失败（未知修复器、路径失效、修复器拒绝、路径过深、链超限）
+ * 逐请求串行应用；任何失败（未知修复器、路径失效、修复器拒绝、路径过深）
  * 一律 fail-closed 降级为 error+block，绝不静默跳过。
+ * 请求总数超过 `MAX_FIX_CHAIN` 时**整批拒绝**（全部降级 error+block、不应用任何修复、
+ * IR 原样返回）——分批「修前 50 降级其余」会让二次 gate 继续修复剩余请求，
+ * 违反 §15.0 幂等性（IR 不动点），故超限语义为全有或全无。
  * 返回的 ir 与输入不共享可变结构（路径上结构重建，其余共享）。
  */
 export function applyFixes(
@@ -103,14 +106,16 @@ export function applyFixes(
   fixers: Readonly<Record<string, Fixer>>,
 ): FixResult {
   const trace: TraceEntry[] = [];
+  if (requests.length > MAX_FIX_CHAIN) {
+    for (const request of requests) {
+      trace.push(degrade(request, `fix chain exceeded ${MAX_FIX_CHAIN} applications, all fixes rejected`));
+    }
+    return { ir: root, trace, applied: 0 };
+  }
   let ir = root;
   let applied = 0;
 
   for (const request of requests) {
-    if (applied >= MAX_FIX_CHAIN) {
-      trace.push(degrade(request, `fix chain exceeded ${MAX_FIX_CHAIN} applications`));
-      continue;
-    }
     const fixer = fixers[request.fixer];
     if (fixer === undefined) {
       trace.push(degrade(request, `unknown fixer "${request.fixer}"`));
