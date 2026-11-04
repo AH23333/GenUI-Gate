@@ -39,8 +39,19 @@ export interface PolicyRuleData {
   message: string;
 }
 
+/**
+ * 组合级检查的树级上下文（1.5 baseline a11y 组合检查）：
+ * 由 evaluatePolicy 在求值前对树做单遍文档序预计算（显式栈，与主遍历同序）。
+ */
+export interface TreeContext {
+  /** 全树 landmark 节点数（props.accessibility.role 属于 ARIA landmark roles） */
+  landmarks: number;
+  /** 文档序标题跳级信息：path → 该标题节点之前最后一个标题的层级（null = 树中首个标题） */
+  headingPrev: Map<string, number | null>;
+}
+
 /** 编译期检查谓词（内置具名，v2 §7.2：策略文档永远不可执行任意代码） */
-export type Check = (node: IRNode, path: string) => boolean;
+export type Check = (node: IRNode, path: string, ctx: TreeContext) => boolean;
 
 export interface CheckRegistry {
   [name: string]: Check;

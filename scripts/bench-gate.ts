@@ -1,9 +1,13 @@
 import { gate } from '@genui/gate';
 import type { IRNode } from '@genui/ir';
+import { BASELINE_A11Y, compilePolicy, evaluatePolicy } from '../packages/policy/src/index';
+import type { PolicyEvaluation } from '../packages/policy/src/index';
 
 /**
  * A6 budget check (v2 §6.6, all values [assumption, P0 calibration point]):
  * gate() full pipeline p99 @ 500 nodes / depth 12 must be <= 5 ms.
+ * Two scenarios since M1 1.5: bare gate, and gate with the baseline a11y
+ * preset injected as policy evaluator (compositional checks + shadow records).
  *
  * Deterministic by construction: fixed tree shape, no randomness, no clock in
  * the measured code path. Run: `pnpm bench`. Exit codes: 0 = within budget,
@@ -106,36 +110,62 @@ function countNodes(root: IRNode): number {
   return count;
 }
 
+interface Scenario {
+  name: string;
+  run: (root: IRNode) => unknown;
+}
+
+function benchmark(root: IRNode, scenario: Scenario): { p50: number; p95: number; p99: number } {
+  for (let i = 0; i < WARMUP; i++) scenario.run(root);
+
+  const durations: number[] = [];
+  for (let i = 0; i < ITERATIONS; i++) {
+    const start = performance.now();
+    scenario.run(root);
+    durations.push(performance.now() - start);
+  }
+  durations.sort((a, b) => a - b);
+  return {
+    p50: percentile(durations, 0.5),
+    p95: percentile(durations, 0.95),
+    p99: percentile(durations, 0.99),
+  };
+}
+
 function main(): number {
   const root = buildTree(NODE_TARGET, DEPTH_TARGET);
   const nodeCount = countNodes(root);
   const depth = measureDepth(root);
 
-  for (let i = 0; i < WARMUP; i++) gate(root);
+  const compiled = compilePolicy(BASELINE_A11Y);
+  const policyEvaluator = (ir: IRNode): PolicyEvaluation => evaluatePolicy(compiled, ir);
 
-  const durations: number[] = [];
-  for (let i = 0; i < ITERATIONS; i++) {
-    const start = performance.now();
-    gate(root);
-    durations.push(performance.now() - start);
-  }
-  durations.sort((a, b) => a - b);
-
-  const p50 = percentile(durations, 0.5);
-  const p95 = percentile(durations, 0.95);
-  const p99 = percentile(durations, 0.99);
-  const pass = p99 <= BUDGET_MS;
+  const scenarios: Scenario[] = [
+    { name: 'bare gate (limits + budget)', run: (ir) => gate(ir) },
+    { name: 'gate + baseline a11y policy (shadow)', run: (ir) => gate(ir, { policy: policyEvaluator }) },
+  ];
 
   const lines = [
     'GenUI Gate bench: gate() pipeline (A6 budget check)',
     `Tree: ${nodeCount} nodes, depth ${depth}`,
     `Iterations: ${ITERATIONS} (warmup ${WARMUP})`,
-    `p50: ${p50.toFixed(3)} ms`,
-    `p95: ${p95.toFixed(3)} ms`,
-    `p99: ${p99.toFixed(3)} ms`,
-    `Budget: p99 <= ${BUDGET_MS} ms (v2 section 6.6, [assumption, P0 calibration point])`,
-    `VERDICT: ${pass ? 'PASS' : 'FAIL'} (p99 ${p99.toFixed(3)} ms ${pass ? '<=' : '>'} ${BUDGET_MS} ms)`,
   ];
+
+  let pass = true;
+  for (const scenario of scenarios) {
+    const { p50, p95, p99 } = benchmark(root, scenario);
+    const ok = p99 <= BUDGET_MS;
+    pass = pass && ok;
+    lines.push(
+      `Scenario: ${scenario.name}`,
+      `  p50: ${p50.toFixed(3)} ms`,
+      `  p95: ${p95.toFixed(3)} ms`,
+      `  p99: ${p99.toFixed(3)} ms`,
+      `  VERDICT: ${ok ? 'PASS' : 'FAIL'} (budget p99 <= ${BUDGET_MS} ms, v2 section 6.6, [assumption, P0 calibration point])`,
+    );
+  }
+
+  lines.push(`OVERALL: ${pass ? 'PASS' : 'FAIL'}`);
   console.log(lines.join('\n'));
 
   return pass ? 0 : 2;

@@ -1,6 +1,13 @@
-export { BUILTIN_CHECKS } from './checks';
+export {
+  BUILTIN_CHECKS,
+  LANDMARK_ROLES,
+  isInteractiveNode,
+  isLandmarkNode,
+  parseHeadingLevel,
+} from './checks';
 export { PolicyCompileError, compilePolicy, type CompilePolicyOptions } from './compile';
-export { evaluatePolicy } from './evaluate';
+export { computeTreeContext, evaluatePolicy } from './evaluate';
+export { BASELINE_A11Y } from './preset';
 export type {
   Check,
   CheckRegistry,
@@ -13,4 +20,5 @@ export type {
   PolicyRuleData,
   RuleMatch,
   RuleMode,
+  TreeContext,
 } from './types';
