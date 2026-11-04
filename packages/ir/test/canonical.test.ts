@@ -50,6 +50,29 @@ describe('canonicalize', () => {
     );
   });
 
+  it('reaches a fixed point after one canonicalization (idempotence)', () => {
+    fc.assert(
+      fc.property(jsonArb(), (value) => {
+        const once = canonicalize(value);
+        expect(canonicalize(JSON.parse(once) as JsonValue)).toBe(once);
+      }),
+      { numRuns: 300 },
+    );
+  });
+
+  it('re-canonicalizing a canonical string changes nothing byte-wise', () => {
+    fc.assert(
+      fc.property(jsonArb(), (value) => {
+        const once = canonicalize(value);
+        const twice = canonicalize(JSON.parse(once) as JsonValue);
+        const thrice = canonicalize(JSON.parse(twice) as JsonValue);
+        expect(twice).toBe(once);
+        expect(thrice).toBe(once);
+      }),
+      { numRuns: 300 },
+    );
+  });
+
   it('is invariant to key insertion order', () => {
     fc.assert(
       fc.property(jsonArb(), (value) => {

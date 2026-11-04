@@ -34,6 +34,17 @@ interface Flattened {
 }
 
 function flatten(tree: GenTree): Flattened {
+  const { components, nodeCount } = flattenComponents(tree);
+  return {
+    spec: JSON.stringify({
+      version: '1.0',
+      createSurface: { surfaceId: 's', components },
+    }),
+    nodeCount,
+  };
+}
+
+function flattenComponents(tree: GenTree): { components: Array<Record<string, unknown>>; nodeCount: number } {
   const components: Array<Record<string, unknown>> = [];
   let counter = 0;
   const visit = (node: GenTree, id: string): void => {
@@ -50,13 +61,7 @@ function flatten(tree: GenTree): Flattened {
     }
   };
   visit(tree, 'root');
-  return {
-    spec: JSON.stringify({
-      version: '1.0',
-      createSurface: { surfaceId: 's', components },
-    }),
-    nodeCount: components.length,
-  };
+  return { components, nodeCount: components.length };
 }
 
 const validSpec = treeArbitrary(4).map(flatten);
@@ -209,6 +214,86 @@ describe('audit property tests', () => {
           expect([0, 2]).toContain(auditExitCode(report));
         },
       ),
+      { numRuns: 100 },
+    );
+  });
+
+  it('keeps multi-surface lifecycles consistent end-to-end (create/update/dataModel/delete)', () => {
+    interface SurfaceScript {
+      tree: GenTree;
+      update: GenTree | undefined;
+      dataModel: Record<string, string> | undefined;
+      del: boolean;
+    }
+    const scriptArb = fc.record({
+      tree: treeArbitrary(3),
+      update: fc.option(treeArbitrary(3), { nil: undefined }),
+      dataModel: fc.option(fc.dictionary(fc.string({ maxLength: 6 }), fc.string({ maxLength: 8 })), {
+        nil: undefined,
+      }),
+      del: fc.boolean(),
+    });
+    const multiArb = fc
+      .array(scriptArb, { minLength: 1, maxLength: 3 })
+      .map((scripts): { spec: string; scripts: SurfaceScript[] } => {
+        const messages: Array<Record<string, unknown>> = [];
+        for (let i = 0; i < scripts.length; i++) {
+          const script = scripts[i]!;
+          const surfaceId = `s${i}`;
+          const created = flattenComponents(script.tree);
+          messages.push({
+            version: '1.0',
+            createSurface: { surfaceId, components: created.components },
+          });
+          if (script.update !== undefined) {
+            const updated = flattenComponents(script.update);
+            messages.push({
+              version: '1.0',
+              updateComponents: { surfaceId, components: updated.components },
+            });
+          }
+          if (script.dataModel !== undefined) {
+            messages.push({
+              version: '1.0',
+              updateDataModel: { surfaceId, value: script.dataModel },
+            });
+          }
+          if (script.del) {
+            messages.push({ version: '1.0', deleteSurface: { surfaceId } });
+          }
+        }
+        return { spec: JSON.stringify(messages), scripts };
+      });
+    fc.assert(
+      fc.property(multiArb, ({ spec, scripts }) => {
+        const deletedCount = scripts.filter((s) => s.del).length;
+        const report = audit(spec);
+        expect(report.parseError).toBe(false);
+        expect(report.adapterIssueCount).toBe(0);
+        expect(report.surfaceCount).toBe(scripts.length);
+        expect(report.liveSurfaceCount).toBe(scripts.length - deletedCount);
+        expect(report.blockedSurfaceCount).toBe(0);
+        expect(auditExitCode(report)).toBe(0);
+        expect(JSON.stringify(audit(spec))).toBe(JSON.stringify(report));
+
+        const session = new A2UISession();
+        session.applyAll(parseA2UISpec(spec).messages);
+        const snap = session.snapshot();
+        expect(snap.issues).toEqual([]);
+        expect(snap.surfaces.length).toBe(scripts.length);
+        for (const surface of report.surfaces) {
+          const snapSurface = snap.surfaces.find((s) => s.surfaceId === surface.surfaceId)!;
+          expect(surface.deleted).toBe(snapSurface.deleted);
+          expect(surface.blocked).toBe(false);
+          if (!surface.deleted) {
+            const expectedCount = countNodes(snapSurface.ir!);
+            expect(surface.nodeCount).toBe(expectedCount);
+            expect(surface.irHash).toBe(specHash(snapSurface.ir!));
+            expect(surface.verdict).toBe('pass');
+          }
+        }
+        expect(hasNoControlChars(renderText(report))).toBe(true);
+      }),
       { numRuns: 100 },
     );
   });

@@ -106,6 +106,41 @@ describe('runCli (pure core)', () => {
     expect(runCli(['spec.json'], io, 'v-test')).toBe(2);
     expect(io.out[0]).toContain('Overall: BLOCK');
   });
+
+  it('exits 2 for an empty file', () => {
+    const io = new RecordingIo();
+    io.readImpl = () => '';
+    expect(runCli(['empty.json'], io, 'v-test')).toBe(2);
+    expect(io.out[0]).toContain('parse errors present');
+  });
+
+  it('prints an identical report for a BOM-prefixed file', () => {
+    const spec = readFileSync(PASSING_FIXTURE, 'utf8');
+    const plain = new RecordingIo();
+    const bom = new RecordingIo();
+    plain.readImpl = () => spec;
+    bom.readImpl = () => `\uFEFF${spec}`;
+    expect(runCli(['plain.json'], plain, 'v-test')).toBe(0);
+    expect(runCli(['bom.json'], bom, 'v-test')).toBe(0);
+    expect(bom.out[0]).toBe(plain.out[0]);
+  });
+
+  it('exits 2 without throwing on binary garbage', () => {
+    const io = new RecordingIo();
+    io.readImpl = () => '\u0000\u00ff\u00fe{"broken';
+    expect(runCli(['garbage.bin'], io, 'v-test')).toBe(2);
+    expect(io.out.length).toBe(1);
+    expect(io.out[0]).toContain('GenUI Gate audit report');
+  });
+
+  it('handles read errors that are not Error instances', () => {
+    const io = new RecordingIo();
+    io.readImpl = () => {
+      throw 'plain string failure';
+    };
+    expect(runCli(['weird.json'], io, 'v-test')).toBe(1);
+    expect(io.err[0]).toContain('cannot read file "weird.json"');
+  });
 });
 
 describe('genui-audit bin (integration)', () => {
@@ -165,5 +200,14 @@ describe('genui-audit bin (integration)', () => {
     const help = runBin(['--help']);
     expect(help.status).toBe(0);
     expect(help.stdout).toContain('Usage: genui-audit');
+  });
+
+  it('exits 2 on a garbage file through the real bin', () => {
+    const garbagePath = join(packageRoot, 'test', 'tmp-garbage.spec.json');
+    writeFileSync(garbagePath, '\u0000\u00ff\u00fe{"broken', 'utf8');
+    tmpFiles.push(garbagePath);
+    const result = runBin([garbagePath]);
+    expect(result.status).toBe(2);
+    expect(result.stdout).toContain('Overall: BLOCK');
   });
 });
