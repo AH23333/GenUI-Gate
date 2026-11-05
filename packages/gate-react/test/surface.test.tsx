@@ -6,6 +6,7 @@ import type { GateResult, VerdictAction } from '@genui/gate';
 import type { IRNode, JsonObject, JsonValue } from '@genui/ir';
 import { ProposalSession } from '@genui/session';
 import { GateSurface } from '../src/GateSurface';
+import type { SurfaceController, SurfaceState } from '../src/controller';
 import { GateSurfaceController } from '../src/controller';
 import type { ComponentCatalog } from '../src/IrView';
 
@@ -229,6 +230,54 @@ describe('GateSurface（v2 §5.2 pending-inert + §14 fallback）', () => {
     propose(w.controller, '1', 'requireApproval');
     expect(document.querySelector('[data-genui-pending]')).not.toBeNull();
     expect(document.querySelector('[data-genui-confirm-bar]')).not.toBeNull();
+    fireEvent.click(screen.getByText('Apply'));
+    expect(document.querySelector('[data-genui-pending]')).toBeNull();
+    expect(screen.getByTestId('btn-1')).toBeTruthy();
+  });
+
+  it('SurfaceController 结构化接口：非类实例的宿主桥接对象可驱动 GateSurface（1.11 demo 桥形态）', () => {
+    const session = new ProposalSession();
+    const listeners = new Set<() => void>();
+    const compute = (): SurfaceState => ({
+      zone: 'main',
+      applied: session.getApplied('main'),
+      staged: session.getStaged('main'),
+      denied: null,
+      locked: session.isZoneLocked('main'),
+      queueFrames: 0,
+      resyncRequired: false,
+    });
+    let snapshot = compute();
+    const sync = (): void => {
+      snapshot = compute();
+      for (const listener of listeners) listener();
+    };
+    const bridge: SurfaceController = {
+      subscribe: (listener) => {
+        listeners.add(listener);
+        return () => {
+          listeners.delete(listener);
+        };
+      },
+      getSnapshot: () => snapshot,
+      confirm: () => {
+        const result = session.commit('main', { confirmed: true });
+        sync();
+        return result;
+      },
+      abortPreview: () => {
+        const result = session.abort('main');
+        sync();
+        return result;
+      },
+    };
+    render(<GateSurface controller={bridge} catalog={makeCatalog(vi.fn())} />);
+    act(() => {
+      session.stage('main', specEvaluate(frame('1', 'pass')), undefined);
+      sync();
+    });
+    expect(document.querySelector('[data-genui-pending]')).not.toBeNull();
+    expect(screen.getByTestId('btn-1')).toBeTruthy();
     fireEvent.click(screen.getByText('Apply'));
     expect(document.querySelector('[data-genui-pending]')).toBeNull();
     expect(screen.getByTestId('btn-1')).toBeTruthy();

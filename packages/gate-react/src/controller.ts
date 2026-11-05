@@ -51,6 +51,18 @@ export interface GateSurfaceOptions {
   readonly autoCommit?: boolean;
 }
 
+/**
+ * `GateSurface` 所需的最小控制器契约（结构化接口，1.11 demo app 引入）：
+ * `GateSurfaceController` 类实现之；宿主侧桥接对象（如 demo app 的 ClosedLoop 桥）亦可结构化满足。
+ * 硬性要求：`getSnapshot` 须缓存——状态不变期间多次调用返回同一引用（useSyncExternalStore 要求）。
+ */
+export interface SurfaceController {
+  readonly subscribe: (listener: () => void) => () => void;
+  readonly getSnapshot: () => SurfaceState;
+  confirm(): CommitResult;
+  abortPreview(): AbortResult;
+}
+
 /** staged 提案是否需要人工确认（与 ProposalSession.commit 的 fail-closed 把门口径一致） */
 function needsConfirmation(proposal: StagedProposal): boolean {
   return proposal.verdict === 'requireApproval' || proposal.confirmation === 'user-confirm';
@@ -91,7 +103,7 @@ function sameSurfaceState(a: SurfaceState, b: SurfaceState): boolean {
  *   人工确认走 confirm()（confirmed: true）→ acceptAsIs / acceptAfterEdit 口径（KAN-026）；
  * - evaluate 抛错：单帧 quarantine（denied=gate-error），队列继续（v2 §14 gate 行 fail-closed）。
  */
-export class GateSurfaceController {
+export class GateSurfaceController implements SurfaceController {
   private readonly zone: string;
   private readonly session: ProposalSession;
   private readonly queue: PendingFrameQueue;

@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from 'react';
 import type { ComponentType, ReactElement, ReactNode } from 'react';
 import type { VerdictAction } from '@genui/gate';
-import type { DeniedState, GateSurfaceController } from './controller';
+import type { DeniedState, SurfaceController } from './controller';
 import { IrView } from './IrView';
 import type { ComponentCatalog } from './IrView';
 import { PendingBoundary } from './PendingBoundary';
@@ -21,7 +21,8 @@ export interface ConfirmBarProps {
 }
 
 export interface GateSurfaceProps {
-  readonly controller: GateSurfaceController;
+  /** 控制器（结构化契约：GateSurfaceController 或宿主桥接对象，1.11 demo app 起） */
+  readonly controller: SurfaceController;
   readonly catalog: ComponentCatalog;
   /** 降级渲染组件（默认 role="status" 提示条） */
   readonly fallback?: ComponentType<FallbackProps>;

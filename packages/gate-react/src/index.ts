@@ -1,4 +1,10 @@
-export type { DeniedReason, DeniedState, GateSurfaceOptions, SurfaceState } from './controller';
+export type {
+  DeniedReason,
+  DeniedState,
+  GateSurfaceOptions,
+  SurfaceController,
+  SurfaceState,
+} from './controller';
 export { GateSurfaceController } from './controller';
 export type { CatalogComponentProps, ComponentCatalog, IrNodesViewProps, IrViewProps } from './IrView';
 export { IrNodesView, IrView } from './IrView';
