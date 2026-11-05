@@ -110,6 +110,21 @@ importers:
         specifier: workspace:*
         version: link:../ir
 
+  packages/proposer-example:
+    dependencies:
+      '@genui/adapter-a2ui':
+        specifier: workspace:*
+        version: link:../adapter-a2ui
+      '@genui/gate':
+        specifier: workspace:*
+        version: link:../gate
+      '@genui/ir':
+        specifier: workspace:*
+        version: link:../ir
+      '@genui/session':
+        specifier: workspace:*
+        version: link:../session
+
   packages/session:
     dependencies:
       '@genui/gate':
