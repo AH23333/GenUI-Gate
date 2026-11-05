@@ -621,10 +621,14 @@ function checkInvariants(snapshot: MetricsSnapshot, maxEventLog: number): void {
     expect(c.transformedCommitted).toBeLessThanOrEqual(c.committed);
     const classified = c.acceptAsIs + c.acceptAfterEdit + c.autoApplied + c.ignore + c.abandonedAfterEdit;
     expect(classified).toBeLessThanOrEqual(c.proposals);
-    // gateBlockRate = deniedBlocked/committed 无上界 1（blocked 不进 proposals 分母），
+    // gateBlockRate = deniedBlocked/committed 无上界 1（blocked 不进 proposals 分母）；
+    // interactionRate 亦可 >1：rollback 按 revert 步累计，accept 后又回滚的提案贡献 2 次交互
+    // （CI #18 反例：seed 1675664992，2 提案均确认提交后回滚 1 步 → 3/2 = 1.5，公式正确而非缺陷）。
     // 其余比率均被各自分母约束在 [0,1]
+    if (report.rates.interactionRate !== null) {
+      expect(report.rates.interactionRate).toBeGreaterThanOrEqual(0);
+    }
     for (const rate of [
-      report.rates.interactionRate,
       report.rates.directAcceptRate,
       report.rates.rollbackRate,
       report.rates.dormantShare,
@@ -710,4 +714,47 @@ describe('性质：确定性与不变量（≥200 runs）', () => {
       { numRuns: 200 },
     );
   }, 30000);
+});
+
+/* ---------------- 回归：CI #18 反例（seed 1675664992，shrunk 91 次） ---------------- */
+
+describe('回归：interactionRate 可 > 1（CI #18 反例）', () => {
+  it('2 提案均确认提交后回滚 1 步 → interactionRate = 1.5，engagementGate 仍 pass', () => {
+    // rollback 按 revert 步累计：accept 后又回滚的提案贡献 2 次交互，
+    // 故 (acceptAsIs 2 + rollback 1) / proposals 2 = 1.5 > 1 是 v2 §11.2 公式的正确行为
+    const counterexample: Op[] = [
+      { kind: 'stage', zone: 'b', verdict: 'pass', pref: undefined, agent: undefined, confirmed: false, steps: 1, label: 'gate.total', ms: 0, treeIdx: 0 },
+      { kind: 'commit', zone: 'b', verdict: 'pass', pref: undefined, agent: undefined, confirmed: true, steps: 1, label: 'gate.total', ms: 0, treeIdx: 0 },
+      { kind: 'stage', zone: 'b', verdict: 'pass', pref: undefined, agent: undefined, confirmed: false, steps: 1, label: 'gate.total', ms: 0, treeIdx: 0 },
+      { kind: 'stage', zone: 'a', verdict: 'pass', pref: undefined, agent: undefined, confirmed: false, steps: 1, label: 'gate.total', ms: 0, treeIdx: 0 },
+      { kind: 'stage', zone: 'a', verdict: 'pass', pref: undefined, agent: undefined, confirmed: false, steps: 1, label: 'gate.total', ms: 0, treeIdx: 0 },
+      { kind: 'commit', zone: 'b', verdict: 'pass', pref: undefined, agent: undefined, confirmed: true, steps: 1, label: 'gate.total', ms: 0, treeIdx: 0 },
+      { kind: 'stage', zone: 'a', verdict: 'pass', pref: undefined, agent: undefined, confirmed: false, steps: 1, label: 'gate.total', ms: 0, treeIdx: 0 },
+      { kind: 'stage', zone: 'a', verdict: 'pass', pref: undefined, agent: undefined, confirmed: false, steps: 1, label: 'gate.total', ms: 0, treeIdx: 0 },
+      { kind: 'stage', zone: 'a', verdict: 'pass', pref: undefined, agent: undefined, confirmed: false, steps: 1, label: 'gate.total', ms: 0, treeIdx: 0 },
+      { kind: 'stage', zone: 'a', verdict: 'pass', pref: undefined, agent: undefined, confirmed: false, steps: 1, label: 'gate.total', ms: 0, treeIdx: 0 },
+      { kind: 'stage', zone: 'a', verdict: 'pass', pref: undefined, agent: undefined, confirmed: false, steps: 1, label: 'gate.total', ms: 0, treeIdx: 0 },
+      { kind: 'revert', zone: 'b', verdict: 'pass', pref: undefined, agent: undefined, confirmed: false, steps: 1, label: 'gate.total', ms: 0, treeIdx: 0 },
+      { kind: 'stage', zone: 'a', verdict: 'pass', pref: undefined, agent: undefined, confirmed: false, steps: 1, label: 'gate.total', ms: 0, treeIdx: 0 },
+    ];
+    const stack = wired();
+    for (const op of counterexample) execOp(stack, op);
+    const snapshot = stack.metrics.snapshot();
+    checkInvariants(snapshot, 100);
+    const b = zoneReport(snapshot, 'b');
+    expect(b.counts).toMatchObject({
+      proposals: 2,
+      committed: 2,
+      acceptAsIs: 2,
+      rollback: 1,
+    });
+    expect(b.rates.interactionRate).toBe(1.5);
+    expect(b.rates.rollbackRate).toBe(0.5);
+    expect(b.health.engagementGate).toBe('pass');
+    expect(b.health.falseGreenRisk).toBe(false);
+    const a = zoneReport(snapshot, 'a');
+    expect(a.counts).toMatchObject({ proposals: 8, ignore: 7 });
+    expect(a.rates.interactionRate).toBe(0);
+    expect(a.health.engagementGate).toBe('fail');
+  });
 });

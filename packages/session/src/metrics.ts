@@ -59,7 +59,8 @@ export interface InteractionCounts {
 
 /** 健康比率：分母为 0 时为 null（不下断言） */
 export interface HealthRates {
-  /** 交互率 = (acceptAsIs + acceptAfterEdit + rollback) / proposals（v2 §11.2 ≥ 30% [假设，P0 校准点]） */
+  /** 交互率 = (acceptAsIs + acceptAfterEdit + rollback) / proposals（v2 §11.2 ≥ 30% [假设，P0 校准点]）。
+   *  可超过 1：rollback 按 revert 步累计，accept 后又回滚的提案贡献 2 次交互 */
   readonly interactionRate: number | null;
   /** 直接接受率 = acceptAsIs / (acceptAsIs + acceptAfterEdit + rollback) */
   readonly directAcceptRate: number | null;
