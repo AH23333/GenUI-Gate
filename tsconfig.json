@@ -12,5 +12,5 @@
     "scripts/**/*.ts",
     "vitest.config.ts"
   ],
-  "exclude": ["packages/gate-react"]
+  "exclude": ["packages/gate-react", "packages/demo-app"]
 }

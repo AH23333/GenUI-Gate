@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GenUI Gate — closed-loop demo</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: system-ui, sans-serif;
+      }
+      body {
+        margin: 0;
+        background: #f5f6f8;
+        color: #1c1e21;
+      }
+      .demo-app {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 16px;
+      }
+      .demo-header h1 {
+        font-size: 20px;
+        margin: 0 0 4px;
+      }
+      .demo-metrics {
+        margin: 0 0 16px;
+        font-variant-numeric: tabular-nums;
+        color: #4b5563;
+        font-size: 14px;
+      }
+      .demo-body {
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+      }
+      .demo-goals {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        min-width: 220px;
+      }
+      .demo-goals button {
+        padding: 8px 12px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        background: #ffffff;
+        cursor: pointer;
+        text-align: left;
+        font-size: 14px;
+      }
+      .demo-goals button:hover {
+        border-color: #6366f1;
+      }
+      .demo-main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .demo-main [data-revert] {
+        align-self: flex-start;
+        padding: 6px 12px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        background: #ffffff;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      .demo-column {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .demo-row {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+      .demo-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 12px;
+        box-shadow: 0 1px 2px rgb(0 0 0 / 5%);
+      }
+      .demo-text {
+        font-size: 15px;
+      }
+      [data-genui-pending] {
+        outline: 2px dashed #f59e0b;
+        outline-offset: 4px;
+      }
+      [data-genui-pending] .demo-card {
+        opacity: 0.75;
+      }
+      [data-genui-confirm-bar] {
+        display: flex;
+        gap: 8px;
+        margin: 8px 0;
+      }
+      [data-genui-confirm-bar] button {
+        padding: 6px 14px;
+        border-radius: 6px;
+        border: 1px solid #cbd5e1;
+        background: #ffffff;
+        cursor: pointer;
+      }
+      [data-genui-confirm-bar] [data-genui-confirm] {
+        background: #4f46e5;
+        border-color: #4f46e5;
+        color: #ffffff;
+      }
+      [data-genui-fallback] {
+        padding: 10px 14px;
+        border-radius: 6px;
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+        color: #991b1b;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="./dist/main.js"></script>
+  </body>
+</html>

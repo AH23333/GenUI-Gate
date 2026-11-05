@@ -12,7 +12,8 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit && tsc --noEmit -p packages/gate-react",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p packages/gate-react && tsc --noEmit -p packages/demo-app",
+    "demo": "pnpm --filter @genui/demo-app demo",
     "coverage": "vitest run --coverage",
     "bench": "tsx scripts/bench-gate.ts",
     "bench:session": "tsx scripts/bench-session.ts"
