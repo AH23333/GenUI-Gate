@@ -8,7 +8,7 @@ export type {
 export { GateSurfaceController } from './controller';
 export type { DevtoolsPanelProps } from './DevtoolsPanel';
 export { DevtoolsPanel } from './DevtoolsPanel';
-export type { CatalogComponentProps, ComponentCatalog, IrNodesViewProps, IrViewProps } from './IrView';
+export type { IrSkipReason, CatalogComponentProps, ComponentCatalog, IrNodesViewProps, IrViewProps } from './IrView';
 export { IrNodesView, IrView } from './IrView';
 export type { PendingBoundaryProps } from './PendingBoundary';
 export { PendingBoundary } from './PendingBoundary';

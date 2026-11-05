@@ -3,7 +3,7 @@ import type { ComponentType, ReactElement, ReactNode } from 'react';
 import type { VerdictAction } from '@genui/gate';
 import type { DeniedState, SurfaceController } from './controller';
 import { IrView } from './IrView';
-import type { ComponentCatalog } from './IrView';
+import type { ComponentCatalog, IrSkipReason } from './IrView';
 import { PendingBoundary } from './PendingBoundary';
 
 /** fallback 契约（v2 §14）：block / gate 异常 / 用户锁定时的降级渲染 */
@@ -32,6 +32,8 @@ export interface GateSurfaceProps {
   readonly empty?: ReactNode;
   /** pending 标注文案，透传 PendingBoundary */
   readonly pendingBadge?: string;
+  /** 渲染器审计回调（v2 §14 catalog/renderer 行），透传 IrView（render 期调用，仅诊断记录） */
+  readonly onSkip?: (reason: IrSkipReason, node: unknown) => void;
 }
 
 export function DefaultFallback({ denied }: FallbackProps): ReactElement {
@@ -66,13 +68,14 @@ export function GateSurface({
   confirmBar = DefaultConfirmBar,
   empty = null,
   pendingBadge,
+  onSkip,
 }: GateSurfaceProps): ReactElement {
   const state = useSyncExternalStore(controller.subscribe, controller.getSnapshot, controller.getSnapshot);
   const Fallback = fallback;
   const ConfirmBar = confirmBar;
   return (
     <div data-genui-surface="" data-genui-zone={state.zone}>
-      {state.applied !== null ? <IrView node={state.applied.irPrime} catalog={catalog} /> : null}
+      {state.applied !== null ? <IrView node={state.applied.irPrime} catalog={catalog} onSkip={onSkip} /> : null}
       {state.staged !== null ? (
         <>
           <ConfirmBar
@@ -82,7 +85,7 @@ export function GateSurface({
             onAbort={() => controller.abortPreview()}
           />
           <PendingBoundary badge={pendingBadge}>
-            <IrView node={state.staged.irPrime} catalog={catalog} />
+            <IrView node={state.staged.irPrime} catalog={catalog} onSkip={onSkip} />
           </PendingBoundary>
         </>
       ) : null}

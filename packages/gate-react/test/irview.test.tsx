@@ -1,9 +1,9 @@
 // @vitest-environment jsdom
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, render, screen } from '@testing-library/react';
 import type { IRNode, JsonObject } from '@genui/ir';
 import { IrNodesView, IrView } from '../src/IrView';
-import type { ComponentCatalog } from '../src/IrView';
+import type { ComponentCatalog, IrSkipReason } from '../src/IrView';
 
 afterEach(cleanup);
 
@@ -52,12 +52,35 @@ describe('IrView（IR′ → React 渲染）', () => {
     expect(order).toEqual(['label-s1', 'label-f1']);
   });
 
-  it('catalog 缺失类型 → 跳过子树不崩溃（fail-closed，v2 §14）', () => {
+  it('catalog 缺失类型 → 跳过子树不崩溃（fail-closed，v2 §14）+ onSkip 审计 catalog-missing', () => {
     const tree = n('p1', 'Panel', {}, {
       default: [n('x1', 'Mystery'), n('l1', 'Label', { text: 'kept' })],
     });
-    render(<IrView node={tree} catalog={catalog} />);
+    const onSkip = vi.fn<(reason: IrSkipReason, node: unknown) => void>();
+    render(<IrView node={tree} catalog={catalog} onSkip={onSkip} />);
     expect(screen.getByTestId('label-l1').textContent).toBe('kept');
+    expect(onSkip).toHaveBeenCalledTimes(1);
+    expect(onSkip).toHaveBeenCalledWith('catalog-missing', expect.objectContaining({ id: 'x1', type: 'Mystery' }));
+  });
+
+  it('renderer 行（v2 §14）：非 IR 形状渲染源 → 拒绝渲染 + invalid-node 审计 + 宿主不崩溃', () => {
+    // 根缺 slots / 槽位内混入非对象 / 槽组非数组
+    const badRoot = { id: 'r', type: 'Panel', props: {} } as unknown as IRNode;
+    const onSkip = vi.fn<(reason: IrSkipReason, node: unknown) => void>();
+    const { container } = render(<IrView node={badRoot} catalog={catalog} onSkip={onSkip} />);
+    expect(container.textContent).toBe('');
+    expect(onSkip).toHaveBeenCalledWith('invalid-node', badRoot);
+
+    cleanup();
+    const onSkip2 = vi.fn<(reason: IrSkipReason, node: unknown) => void>();
+    const tree = n('p1', 'Panel', {}, {
+      default: [n('l1', 'Label', { text: 'kept' }), null as unknown as IRNode, 'garbage' as unknown as IRNode],
+    });
+    render(<IrView node={tree} catalog={catalog} onSkip={onSkip2} />);
+    expect(screen.getByTestId('label-l1').textContent).toBe('kept'); // 合法兄弟保留
+    expect(onSkip2).toHaveBeenCalledTimes(2);
+    expect(onSkip2).toHaveBeenNthCalledWith(1, 'invalid-node', null);
+    expect(onSkip2).toHaveBeenNthCalledWith(2, 'invalid-node', 'garbage');
   });
 
   it('IrNodesView 脱离 provider 渲染为空（不崩溃）', () => {
