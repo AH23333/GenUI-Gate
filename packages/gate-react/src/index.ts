@@ -6,6 +6,8 @@ export type {
   SurfaceState,
 } from './controller';
 export { GateSurfaceController } from './controller';
+export type { DevtoolsPanelProps } from './DevtoolsPanel';
+export { DevtoolsPanel } from './DevtoolsPanel';
 export type { CatalogComponentProps, ComponentCatalog, IrNodesViewProps, IrViewProps } from './IrView';
 export { IrNodesView, IrView } from './IrView';
 export type { PendingBoundaryProps } from './PendingBoundary';

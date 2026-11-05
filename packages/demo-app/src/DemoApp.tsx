@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from 'react';
 import type { ReactElement } from 'react';
-import { GateSurface } from '@genui/gate-react';
+import { DevtoolsPanel, GateSurface } from '@genui/gate-react';
 import type { LoopBridge } from './bridge';
 import { demoCatalog } from './catalog';
 import { DEMO_GOALS } from './params';
@@ -67,6 +67,9 @@ export function DemoApp({ bridge }: DemoAppProps): ReactElement {
           </button>
         </main>
       </div>
+      <section className="demo-devtools" data-testid="demo-devtools">
+        <DevtoolsPanel snapshot={bridge.getLoop().metrics.snapshot()} surface={state} />
+      </section>
     </div>
   );
 }
