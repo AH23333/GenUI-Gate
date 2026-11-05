@@ -12,7 +12,7 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p packages/gate-react",
     "coverage": "vitest run --coverage",
     "bench": "tsx scripts/bench-gate.ts",
     "bench:session": "tsx scripts/bench-session.ts"
@@ -23,6 +23,7 @@
     "@types/node": "^24.0.0",
     "@vitest/coverage-v8": "^3.0.0",
     "fast-check": "^4.0.0",
+    "jsdom": "^26.0.0",
     "tsx": "^4.19.0",
     "typescript": "^5.7.0",
     "vitest": "^3.0.0"
