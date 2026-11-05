@@ -122,7 +122,7 @@ export class ProposalSession {
       diff: diffTrees(baseline, gateResult.ir),
     };
     state.staged = proposal;
-    this.emit({ kind: 'staged', zone, proposalId: proposal.id, seq });
+    this.emit({ kind: 'staged', zone, proposalId: proposal.id, seq, verdict: proposal.verdict });
     return { status: 'staged', proposal, abortedPreviousId, arbitration };
   }
 
@@ -167,6 +167,7 @@ export class ProposalSession {
       proposalId: committed.id,
       committedSeq,
       supersededId,
+      userConfirmed: options.confirmed === true,
     });
     return { status: 'committed', proposal: committed, supersededId };
   }

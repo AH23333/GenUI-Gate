@@ -75,10 +75,10 @@ export interface RevertResult {
 
 /** 状态机迁移事件流（1.8 本地指标的事件源；确定性，无时钟无随机） */
 export type SessionEvent =
-  | { kind: 'staged'; zone: string; proposalId: string; seq: number }
+  | { kind: 'staged'; zone: string; proposalId: string; seq: number; verdict: VerdictAction }
   | { kind: 'stage-denied'; zone: string; reason: 'blocked' | 'user-lock'; seq: number }
   | { kind: 'staged-aborted'; zone: string; proposalId: string; reason: 'superseded-by-newer' | 'zone-locked' | 'user-abort'; seq: number }
-  | { kind: 'committed'; zone: string; proposalId: string; committedSeq: number; supersededId: string | null }
+  | { kind: 'committed'; zone: string; proposalId: string; committedSeq: number; supersededId: string | null; userConfirmed: boolean }
   | { kind: 'reverted'; zone: string; restoredProposalId: string; revertedProposalId: string | null; steps: number; cancelledInflight: number }
   | { kind: 'revert-failed'; zone: string; reason: 'no-snapshot' | 'snapshot-corrupted'; steps: number }
   | { kind: 'snapshot-evicted'; zone: string; proposalId: string }

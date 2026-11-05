@@ -8,6 +8,20 @@ export {
   type ConfirmationPolicy,
 } from './arbitration';
 export { diffTrees, type ProposalDiff } from './diff';
+export {
+  GLOBAL_ZONE,
+  SessionMetrics,
+  type EngagementGate,
+  type EventLogEntry,
+  type HealthRates,
+  type HealthVerdict,
+  type InteractionClass,
+  type InteractionCounts,
+  type MetricsSnapshot,
+  type PerfStat,
+  type SessionMetricsOptions,
+  type ZoneReport,
+} from './metrics';
 export { ProposalSession } from './proposal';
 export type {
   AbortResult,
